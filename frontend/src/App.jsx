@@ -9,6 +9,10 @@ import "./App.css";
 
 import ConfirmedCasesChart from "./components/ConfirmedCasesChart";
 
+import MetricCards from "./components/MetricCards";
+
+import NewCasesChart from "./components/NewCasesChart";
+
 function App() {
   // Store the available countries
   const [countries, setCountries] = useState([]);
@@ -117,9 +121,11 @@ function App() {
             <section>
               <h2>{countryData.country} COVID-19 Trends</h2>
 
-              <p>Available records: {countryData.data.length}</p>
+              <MetricCards records={countryData.data} />
 
               <ConfirmedCasesChart records={countryData.data} />
+
+              <NewCasesChart records={countryData.data} />
             </section>
           )}
         </div>

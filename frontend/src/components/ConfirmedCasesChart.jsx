@@ -36,10 +36,18 @@ function ConfirmedCasesChart({ records = [] }) {
   // Extract confirmed cases for the Y-axis
   const confirmedCases = sortedRecords.map((record) => record.confirmed);
 
+  // Extract deaths from each record
+  const deaths = sortedRecords.map((record) => record.deaths);
+
+  // Extract recoveries from each record
+  const recoveries = sortedRecords.map((record) => record.recovered);
+  
   // Prepare the information for Chart.js
   const chartData = {
+    // Dates displayed along the X-axis
     labels: dates,
 
+    // The information displayed as lines
     datasets: [
       {
         label: "Confirmed Cases",
@@ -47,6 +55,30 @@ function ConfirmedCasesChart({ records = [] }) {
 
         borderColor: "#2563eb",
         backgroundColor: "rgba(37, 99, 235, 0.15)",
+
+        borderWidth: 2,
+        pointRadius: 4,
+        tension: 0.25,
+      },
+
+      {
+        label: "Deaths",
+        data: deaths,
+
+        borderColor: "#dc5555",
+        backgroundColor: "rgba(220, 85, 85, 0.15)",
+
+        borderWidth: 2,
+        pointRadius: 4,
+        tension: 0.25,
+      },
+
+      {
+        label: "Recoveries",
+        data: recoveries,
+
+        borderColor: "#269b68",
+        backgroundColor: "rgba(38, 155, 104, 0.15)",
 
         borderWidth: 2,
         pointRadius: 4,
@@ -64,11 +96,12 @@ function ConfirmedCasesChart({ records = [] }) {
     plugins: {
       title: {
         display: true,
-        text: "COVID-19 Confirmed Cases",
+        text: "COVID-19 Cases Over Time",
       },
 
       legend: {
         display: true,
+        position: "top",
       },
 
       tooltip: {
