@@ -27,9 +27,14 @@ const covidData = JSON.parse(fileContents);
 // Create Express application
 const app = express();
 
-// Allow React frontend to communicate with the backend
+// Allow local and deployed React frontend to communicate with the backend
+const allowedOrigins = [
+  "http://localhost:5173",
+  process.env.FRONTEND_URL
+].filter(Boolean);
+
 app.use(cors({
-    origin: "http://localhost:5173"
+  origin: allowedOrigins
 }));
 
 // Choose the port the server will use

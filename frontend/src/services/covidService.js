@@ -1,5 +1,6 @@
-// Backend API address
-const API_URL = "http://localhost:5000";
+// Use deployed API URL or localhost when developing
+const API_URL =
+  import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 // Get all available countries
 export async function getCountries() {
