@@ -3,6 +3,7 @@ import {
   Chart as ChartJS,
   CategoryScale,
   LinearScale,
+  TimeScale,
   PointElement,
   LineElement,
   Title,
@@ -13,10 +14,13 @@ import {
 // Import the React Line chart
 import { Line } from "react-chartjs-2";
 
+import "chartjs-adapter-date-fns";
+
 // Register the components required by Chart.js
 ChartJS.register(
   CategoryScale,
   LinearScale,
+  TimeScale,
   PointElement,
   LineElement,
   Title,
@@ -58,7 +62,7 @@ function ConfirmedCasesChart({ records = [] }) {
 
         borderWidth: 2,
         pointRadius: 4,
-        tension: 0.25,
+        tension: 0,
       },
 
       {
@@ -95,8 +99,7 @@ function ConfirmedCasesChart({ records = [] }) {
 
     plugins: {
       title: {
-        display: true,
-        text: "COVID-19 Cases Over Time",
+        display: false,
       },
 
       legend: {
@@ -111,6 +114,13 @@ function ConfirmedCasesChart({ records = [] }) {
 
     scales: {
       x: {
+        type: "time",
+
+        time: {
+          unit: "week",
+          tooltipFormat: "MMM d, yyyy",
+        },
+
         title: {
           display: true,
           text: "Date",
@@ -129,11 +139,11 @@ function ConfirmedCasesChart({ records = [] }) {
   };
 
   return (
-    <section>
+    <section className="chart-card">
       <h2>Confirmed Cases Over Time</h2>
 
       {records.length > 0 ? (
-        <div style={{ height: "400px" }}>
+        <div className="chart-container">
           <Line data={chartData} options={chartOptions} />
         </div>
       ) : (

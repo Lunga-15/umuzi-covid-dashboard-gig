@@ -22,21 +22,60 @@ ChartJS.register(
   Legend,
 );
 
-function NewCasesChart({ records = [] }) {
+function NewCasesChart({ records = [], startDate = "", endDate = "" }) {
   // Sort records chronologically
   const sortedRecords = [...records].sort(
     (a, b) => new Date(a.date) - new Date(b.date),
   );
 
-  // Calculate increases between consecutive records
-  const newCases = sortedRecords
-    .slice(1)
-    .map((record, index) => record.confirmed - sortedRecords[index].confirmed);
+  // Convert a full date into a shorter label
+  const shortDate = (date) => {
+    const [year, month, day] = date.split("-");
+    return `${Number(month)}/${Number(day)}`;
+  };
+  const formatDate = (date) => {
+    const [year, month, day] = date.split("-");
 
-  // Create labels showing the reporting intervals
-  const dates = sortedRecords
+    const months = [
+      "Jan",
+      "Feb",
+      "Mar",
+      "Apr",
+      "May",
+      "Jun",
+      "Jul",
+      "Aug",
+      "Sep",
+      "Oct",
+      "Nov",
+      "Dec",
+    ];
+
+    return `${months[Number(month) - 1]} ${Number(day)}`;
+  };
+
+  // Calculate increases between consecutive records
+  const intervals = sortedRecords
     .slice(1)
-    .map((record, index) => `${sortedRecords[index].date} to ${record.date}`);
+    .map((record, index) => ({
+      endDate: record.date,
+
+      label: `${formatDate(sortedRecords[index].date)} – ${formatDate(record.date)}`,
+      increase: record.confirmed - sortedRecords[index].confirmed,
+    }))
+
+    .filter((interval) => {
+      const afterStart = !startDate || interval.endDate >= startDate;
+
+      const beforeEnd = !endDate || interval.endDate <= endDate;
+
+      return afterStart && beforeEnd;
+    });
+
+  // Prepare the labels and values for Chart.js
+  const dates = intervals.map((interval) => interval.label);
+
+  const newCases = intervals.map((interval) => interval.increase);
 
   // Prepare data for Chart.js
   const chartData = {
@@ -69,8 +108,7 @@ function NewCasesChart({ records = [] }) {
 
     plugins: {
       title: {
-        display: true,
-        text: "Increase in Confirmed Cases Between Reported Dates",
+        display: false,
       },
 
       legend: {
@@ -102,15 +140,15 @@ function NewCasesChart({ records = [] }) {
   };
 
   return (
-    <section>
+    <section className="chart-card">
       <h2>Increase in Confirmed Cases</h2>
 
       <p>
         Additional confirmed cases recorded between consecutive reporting dates.
       </p>
 
-      {records.length > 1 ? (
-        <div style={{ height: "400px" }}>
+      {intervals.length > 0 ? (
+        <div className="chart-container">
           <Bar data={chartData} options={chartOptions} />
         </div>
       ) : (
