@@ -33,7 +33,7 @@ app.use(cors({
 }));
 
 // Choose the port the server will use
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 
 // Create first API endpoint
 app.get("/api/health", (req, res) => {
