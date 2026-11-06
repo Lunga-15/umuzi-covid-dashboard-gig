@@ -8,6 +8,13 @@ The dashboard allows users to explore confirmed cases, deaths, recoveries, and a
 
 The application uses a **React frontend** and a **Node.js/Express backend**, with COVID-19 statistics retrieved from a JSON dataset.
 
+## Live Demo
+
+[View Live Dashboard](https://lungani-ngcosini-covid-dashboard.onrender.com)
+
+For deployment instructions, see the
+[Deployment Guide](DEPLOYMENT.md).
+
 ## Features
 
 - **Country Selection:** View COVID-19 statistics for China, Italy, South Korea, United States, and South Africa.
@@ -41,7 +48,7 @@ The application uses a **React frontend** and a **Node.js/Express backend**, wit
 ## Project Structure
 
 ```text
-covid-dashboard/
+umuzi-covid-dashboard-gig/
 │
 ├── backend/
 │   ├── data/
@@ -58,13 +65,18 @@ covid-dashboard/
 │   │   │   ├── ConfirmedCasesChart.jsx
 │   │   │   ├── MetricCards.jsx
 │   │   │   └── NewCasesChart.jsx
+│   │   │
 │   │   ├── services/
 │   │   │   └── covidService.js
+│   │   │
 │   │   ├── App.jsx
 │   │   ├── App.css
 │   │   ├── index.css
 │   │   └── main.jsx
+│   │
+│   ├── index.html
 │   ├── package.json
+│   ├── package-lock.json
 │   └── vite.config.js
 │
 ├── milestone testing evidence/
@@ -74,6 +86,7 @@ covid-dashboard/
 │   └── milestone 4 - polish & submission/
 │
 ├── .gitignore
+├── DEPLOYMENT.md
 └── README.md
 ```
 
